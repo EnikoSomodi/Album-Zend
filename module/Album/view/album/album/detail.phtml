@@ -1,0 +1,82 @@
+<?php
+$album = $this->album;
+$songs = $this->songs; 
+?>
+
+<div>&nbsp;<br> &nbsp;</div>
+
+<div style="border: 1px solid black; width:200px; float:left">
+  <?php
+  if ($album->imagepath && file_exists('./public' . $album->imagepath)) {
+      echo '<img src="' . $album->imagepath . '" alt="no image"
+          height="200" width="200">';
+  } else {
+      echo '<img src="/album_uploads/default.jpg" alt="no image"
+          height="150" width="198">';
+  }
+  ?>
+</div>
+
+<div style="height:230px; float:left; margin-left:50px">
+  <span style="font-family:Lucida; font-size: 300%">
+    <strong><?= $album->title;?></strong>
+  </span>
+  <br>
+  <span style="color: #800040; font-family: Comic; font-size:125%">
+    <strong>- <?= $album->artist?></strong>
+  </span>
+</div>
+
+<div style="float:right; height:100px">
+  <a class="btn btn-warning" href="<?= $this->url('album',
+      ['action' => 'edit', 'id' => $album->id])?>">Edit</a>
+  <a class="btn btn-danger"  href="<?= $this->url('album',
+      ['action' => 'delete', 'id' => $album->id])?>">Delete</a>
+</div>
+
+<table class="table">
+  <tr>
+    <th>Songs</th>
+    <th>Song sample</th>
+
+    <?php if ($album->number_of_songs) :?>
+    <th style="text-align:right">
+      Number of songs: <span><?= $album->number_of_songs?></span>
+    </th>
+    <?php else:?>
+    <th style="text-align:right">
+      Number of songs: <span> 0</span>
+    </th>
+    <?php endif;?>
+  </tr>
+
+<?php foreach($songs as $song):?>
+  <tr>
+    <td><?= $song->song_title?></td>
+
+    <td>
+        <?php
+        if ($song->songpath && file_exists('./public' . $song->songpath)): ?>
+        <audio controls>
+            <source src="<?= $song->songpath?>" type="audio/mpeg">
+        </audio>
+        <?php else:?>
+            No sample
+        <?php endif; ?>
+    </td>
+
+    <td style="text-align:right">
+      <a class="btn"  href="<?= $this->url('album/editsong',
+          ['id' => $album->id, 'song_id' => $song->id])?>">Edit song</a>
+      <a class="btn"  href="<?= $this->url('album/deletesong',
+          ['id' => $album->id, 'song_id' => $song->id])?>">Delete song</a>
+    </td>
+  </tr>
+<?php endforeach;?>
+
+</table>
+
+<div style="float:right; margin-top:50px; ">
+  <a class="btn btn-info" href="<?= $this->url('album/addsong',
+      ['id' => $album->id])?>">ADD Song</a>
+</div>

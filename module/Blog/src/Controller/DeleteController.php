@@ -1,0 +1,51 @@
+<?php
+namespace Blog\Controller;
+
+// Out-sourced Libraries
+use InvalidArgumentException;
+use Zend\Mvc\Controller\AbstractActionController;
+use Zend\View\Model\ViewModel;
+
+// My Libraries
+use Blog\Model\Post;
+use Blog\Model\PostCommandInterface;
+use Blog\Model\PostRepositoryInterface;
+
+class DeleteController extends AbstractActionController
+{
+  private $command;
+  private $repository;
+
+  public function __construct(PostCommandInterface $command, PostRepositoryInterface $repository)
+  {
+      $this->command = $command;
+      $this->repository = $repository;
+  }
+
+  public function deleteAction()
+  {
+      $id = $this->params()->fromRoute('id');
+      if (! $id) {
+          return $this->redirect()->toRoute('blog');
+      }
+
+      try {
+          $post = $this->repository->findPost($id);
+      } catch (InvalidArgumentException $ex) {
+          return $this->redirect()->toRoute('blog');
+      }
+
+      $request = $this->getRequest();
+      if (! $request->isPost()) {
+          return new ViewModel(['post' => $post]);
+      }
+
+      if ($id != $request->getPost('id') || 'Delete' !== $request->getPost('confirm', 'no')) {
+          return $this->redirect()->toRoute('blog');
+      }
+
+      $post = $this->command->deletePost($post);
+      return $this->redirect()->toRoute('blog');
+  }
+}
+?>

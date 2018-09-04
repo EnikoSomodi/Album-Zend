@@ -1,0 +1,20 @@
+<?php
+$message  = $this->message;
+?>
+
+<h1><?= $message?></h1>
+
+<head>
+  <meta http-equiv="refresh" content="1;
+      url=<?= $this->url('album', ['action' => 'create'])?>">
+</head>
+
+<pre>
+  Your download should start automatically.
+  If not, click <a href="<?= $this->url('album', ['action' => 'create'])?>">here</a>.
+</pre>
+
+<div>
+  <a class="btn btn-primary" href="<?= $this->url('album')?>">
+      Back to album list!</a>
+</div>

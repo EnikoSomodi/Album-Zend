@@ -1,0 +1,58 @@
+<?php
+$title = 'My albums';
+$this->headTitle($title);
+?>
+
+<h1><?= $this->escapeHtml($title) ?></h1>
+
+<p>
+  <a href="<?= $this->url('album',['action' => 'add'])?>" class="btn btn-success">
+      Add new album</a>
+</p>
+
+<table class="table">
+  <tr>
+    <th style="text-align:center">Album Cover</th>
+    <th style="text-align:center">Title</th>
+    <th style="text-align:center">Artist</th>
+  </tr>
+
+<?php
+foreach($this->paginator as $album):
+?>
+
+<tr>
+  <?php if ($album->imagepath && file_exists('./public' . $album->imagepath)):?>
+  <td style="text-align:center">
+    <?php echo '<img src="' . $album->imagepath .
+        '" alt="no image" height="50", width="50">'?>
+  </td>
+  <?php else :?>
+  <td style="text-align:center;">
+    <?php echo '<img src="./album_cover/default.jpg"
+        alt="no image" height="30", width="50">'?>
+  </td>
+  <?php endif;?>
+
+  <td style="text-align:center">
+    <a href="<?=$this->url('album', ['action' => 'detail', 'id' => $album->id])?>">
+        <?= $this->escapeHtml($album->title)?>
+    </a>
+  </td>
+  <td style="text-align:center"><?= $this->escapeHtml($album->artist)?></td>
+<?php endforeach;?>
+</table>
+
+<?=
+$this->paginationControl(
+    $this->paginator,
+    'sliding',
+    'partial/paginator',
+    ['route' => 'album']
+)
+?>
+
+<div style="float:right">
+  <a href="<?= $this->url('album',['action' => 'down'])?>" class="btn btn-info">
+    Download Albums as CSV</a>
+</div>
