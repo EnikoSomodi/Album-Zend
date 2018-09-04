@@ -8,6 +8,7 @@ use Album\Event\SongCreatedEvent;
 use Album\Event\SongDeletedEvent;
 use Album\Model\Song;
 use Album\Service\AlbumService;
+use Album\Service\SongService;
 
 /**
  * Song Event Listener.
@@ -20,10 +21,14 @@ class SongEventListener extends AbstractListenerAggregate
       * Constructor.
       *
       * @param  AlbumService $albumService
+      * @param  SongService  $songService
       */
-    public function __construct(AlbumService $albumService)
-    {
+    public function __construct(
+        AlbumService $albumService,
+        SongService $songService
+    ) {
         $this->albumService = $albumService;
+        $this->songService = $songService;
     }
 
     /**
@@ -55,8 +60,8 @@ class SongEventListener extends AbstractListenerAggregate
     public function onSongCreated(SongCreatedEvent $event)
     {
         $song = $event->getParam('song');
-
-        $this->albumService->updateSongCount($song);
+        $album = $this->songService->getAlbum($song);
+        $this->albumService->updateSongCount($album);
     }
 
     /**
@@ -67,8 +72,8 @@ class SongEventListener extends AbstractListenerAggregate
     public function onSongDeleted(SongDeletedEvent $event)
     {
         $song = $event->getParam('song');
-
-        $this->albumService->updateSongCount($song);
+        $album = $this->songService->getAlbum($song);
+        $this->albumService->updateSongCount($album);
     }
 }
 ?>

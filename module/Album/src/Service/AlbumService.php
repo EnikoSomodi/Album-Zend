@@ -48,11 +48,11 @@ class AlbumService
       *@param  Song    $song
       *@return int
       */
-    public function getSongNumber(Song $song)
+    public function countSongs(Album $album)
     {
         $select = new Select('Song');
         $select->columns(['song_number' => new Expression("COUNT(album_id)")])
-               ->where("album_id = $song->album_id");
+               ->where("album_id = $album->id");
 
         $sql       = new Sql($this->db);
         $statement = $sql->prepareStatementForSqlObject($select);
@@ -73,10 +73,9 @@ class AlbumService
       *@param  Song    $song
       *@return void
       */
-    public function updateSongCount(Song $song)
+    public function updateSongCount(Album $album)
     {
-        $album = $this->songService->getAlbumOfSong($song);
-        $album->number_of_songs = $this->getSongNumber($song);
+        $album->number_of_songs = $this->countSongs($album);
         $this->albumTable->saveAlbum($album);
     }
 
@@ -86,7 +85,7 @@ class AlbumService
       * @param  Album $album
       * @return array
       */
-    public function getSongsByAlbum(Album $album)
+    public function getSongs(Album $album)
     {
         return $this->songTable->fetchByAlbum($album);
     }

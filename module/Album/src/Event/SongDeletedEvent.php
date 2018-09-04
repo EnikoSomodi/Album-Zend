@@ -8,9 +8,7 @@ class SongDeletedEvent extends BaseSongEvent
     const NAME = 'song.deleted';
 
     /**
-     * Get Event Name.
-     *
-     * @return const
+     * {@inheritdoc}
      */
     public function getEventName()
     {

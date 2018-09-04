@@ -78,8 +78,8 @@ class Module implements ConfigProviderInterface
                 Controller\SongController::class => function($container) {
                     return new Controller\SongController(
                         $container->get(Model\SongTable::class),
-                        $container->get('song_event_manager'),
-                        $container->get(Service\SongService::class)
+                        $container->get(Service\SongService::class),
+                        $container->get('song_event_manager')
                     );
                 }
             ],

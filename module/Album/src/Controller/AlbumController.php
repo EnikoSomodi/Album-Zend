@@ -21,13 +21,13 @@ class AlbumController extends AbstractActionController
     /**
       * Constructor.
       *
-      * @param  AlbumTable $albumTable
-      * @param  SongTable  $songTable
+      * @param AlbumTable $albumTable
+      * @param SongTable  $songTable
       */
     public function __construct(AlbumTable $albumTable, SongTable $songTable)
     {
         $this->albumTable   = $albumTable;
-        $this->songTable    = $songTable; 
+        $this->songTable    = $songTable;
     }
 
     /**

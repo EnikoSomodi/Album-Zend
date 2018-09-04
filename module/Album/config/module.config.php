@@ -3,8 +3,8 @@ namespace Album;
 
 use Zend\Db\Adapter\AdapterInterface;
 use Zend\EventManager\EventManager;
-use Zend\ServiceManager\Factory\InvokableFactory;
 use Zend\Router\Http\Segment;
+use Zend\ServiceManager\Factory\InvokableFactory;
 
 use Album\EventListener\SongEventListener;
 
@@ -83,7 +83,8 @@ return [
             'song_event_manager' => function ($container) {
                 $eventManager = new EventManager();
                 $songEventListener = new SongEventListener(
-                    $container->get(\Album\Service\AlbumService::class)
+                    $container->get(\Album\Service\AlbumService::class),
+                    $container->get(\Album\Service\SongService::class)
                 );
 
                 $songEventListener->attach($eventManager);

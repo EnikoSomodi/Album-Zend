@@ -4,10 +4,10 @@ namespace Album\Controller;
 use Zend\EventManager\EventManager;
 use Zend\Mvc\Controller\AbstractActionController;
 
-use Album\Model\Song;
 use Album\Event\SongCreatedEvent;
 use Album\Event\SongDeletedEvent;
 use Album\Form\SongForm;
+use Album\Model\Song;
 use Album\Model\SongTable;
 use Album\Service\SongService;
 
@@ -29,12 +29,12 @@ class SongController extends AbstractActionController
       */
     public function __construct(
         SongTable $songTable,
-        EventManager $eventManager,
-        SongService $songService
+        SongService $songService,
+        EventManager $eventManager
     ) {
         $this->songTable        = $songTable;
-        $this->eventManager     = $eventManager;
         $this->songService      = $songService;
+        $this->eventManager     = $eventManager;
     }
 
     /**
@@ -191,7 +191,7 @@ class SongController extends AbstractActionController
 
         return [
             'song'  => $this->songTable->fetchSongById($songId),
-            'album' => $this->songService->getAlbumOfSong($song),
+            'album' => $this->songService->getAlbum($song),
         ];
     }
 }

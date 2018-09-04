@@ -32,7 +32,7 @@ class SongService
       * @param  Song  $song
       * @return Album
       */
-    public function getAlbumOfSong(Song $song)
+    public function getAlbum(Song $song)
     {
         return $this->albumTable->getAlbum($song->album_id);
     }
