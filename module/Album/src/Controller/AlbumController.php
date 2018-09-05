@@ -1,6 +1,7 @@
 <?php
 namespace Album\Controller;
 
+use Zend\Filter\StringTrim;
 use Zend\Mvc\Controller\AbstractActionController;
 use Zend\View\Model\ViewModel;
 
@@ -258,6 +259,24 @@ class AlbumController extends AbstractActionController
             'album' => $album,
             'songs' => $songs
         ]);
+    }
+
+    public function updateartistAction()
+    {
+        $artist = $_POST['artist'];
+        $id = $_POST['id'];
+
+        $artist = trim($artist);
+
+        try {
+            $album = $this->albumTable->getAlbum($id);
+        } catch (\Exception $exception) {
+            return $this->redirect()->toRoute('album', ['action' => 'index']);
+        }
+
+        $album->artist = $artist;
+
+        $this->albumTable->saveAlbum($album);
     }
 }
 ?>

@@ -18,9 +18,5 @@ return [
     'Zend\Router',
     'Zend\Validator',
     'Application',
-    'Album',
-    'Blog',
-//    'Avatar',
-//    'Tutorial',
-//    'Movies',
+    'Album'
 ];

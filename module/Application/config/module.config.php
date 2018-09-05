@@ -79,14 +79,6 @@ return [
                     ],
                 ],*/
             ],
-            [
-                'label' => 'Blog',
-                'route' => 'blog',
-            ],
-          /*  [
-                'label' => 'Movies',
-                'route' => 'movies',
-            ],*/
         ],
     ],
 

@@ -3,7 +3,11 @@ $title = 'My albums';
 $this->headTitle($title);
 ?>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
 <h1><?= $this->escapeHtml($title) ?></h1>
+
+<div id="alert"></div>
 
 <p>
   <a href="<?= $this->url('album',['action' => 'add'])?>" class="btn btn-success">
@@ -39,7 +43,9 @@ foreach($this->paginator as $album):
         <?= $this->escapeHtml($album->title)?>
     </a>
   </td>
-  <td style="text-align:center"><?= $this->escapeHtml($album->artist)?></td>
+  <td style="text-align:center" ondblclick="makeEditable(this, <?= $album->id?>)">
+      <?= $this->escapeHtml($album->artist)?>
+  </td>
 <?php endforeach;?>
 </table>
 
@@ -56,3 +62,7 @@ $this->paginationControl(
   <a href="<?= $this->url('album',['action' => 'down'])?>" class="btn btn-info">
     Download Albums as CSV</a>
 </div>
+
+<?php
+$this->headScript()->appendFile('/js/UpdateArtist.js', 'text/javascript');
+?>
