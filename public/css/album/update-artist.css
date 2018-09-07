@@ -1,0 +1,23 @@
+.success
+{
+    background-color: #e6ffe6;
+    font-size: 20px;
+}
+
+.fail
+{
+    background-color: #ffc2b3;
+    font-size: 20px;
+}
+
+.loading
+{
+    background-color: #ffdab3;
+    font-size: 20px;
+}
+
+.info
+{
+    background-color: #b3e0ff;
+    font-size: 20px;
+}

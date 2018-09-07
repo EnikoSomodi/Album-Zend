@@ -1,0 +1,4 @@
+
+(function() {
+  new AlbumView().create();
+})();

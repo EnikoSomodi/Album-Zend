@@ -263,10 +263,12 @@ class AlbumController extends AbstractActionController
 
     public function updateartistAction()
     {
-        $artist = $_POST['artist'];
+        header('Content-Type: application/json');
+
+        $artistName = $_POST['artist'];
         $id = $_POST['id'];
 
-        $artist = trim($artist);
+        $artistName = trim($artistName);
 
         try {
             $album = $this->albumTable->getAlbum($id);
@@ -274,9 +276,33 @@ class AlbumController extends AbstractActionController
             return $this->redirect()->toRoute('album', ['action' => 'index']);
         }
 
-        $album->artist = $artist;
+        // TEST: Failed to update artist
+        // Won't change artist for albums with number_of_songs!=0
+        if ($album->number_of_songs) {
+                $response = [
+                    'success' => false,
+                    'error' => 'Cannot change the artist for this album',
+                ];
+                echo json_encode($response);
+                return;
+        }
+
+        // TEST: Uploading icon
+        // If the album has cover image delay update -> show working animation
+        if ($album->imagepath) {
+            sleep(5);
+        }
+
+        $album->artist = $artistName;
 
         $this->albumTable->saveAlbum($album);
+
+        $response = [
+            'success' => true,
+            'message' => 'Success! Artist has been successfully updated.',
+        ];
+        echo json_encode($response);
+        exit;
     }
 }
 ?>

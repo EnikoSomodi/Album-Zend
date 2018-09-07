@@ -1,13 +1,23 @@
 <?php
 $title = 'My albums';
 $this->headTitle($title);
+
+$this->headScript()->appendFile('/js/underscore.js', 'text/javascript');
 ?>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+    </script>
+
+<link rel="stylesheet" href="css/album/update-artist.css" type="text/css">
+<link rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+      integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+      crossorigin="anonymous">
 
 <h1><?= $this->escapeHtml($title) ?></h1>
 
-<div id="alert"></div>
+<div class="alertBox"></div>
+<br>
 
 <p>
   <a href="<?= $this->url('album',['action' => 'add'])?>" class="btn btn-success">
@@ -43,8 +53,10 @@ foreach($this->paginator as $album):
         <?= $this->escapeHtml($album->title)?>
     </a>
   </td>
-  <td style="text-align:center" ondblclick="makeEditable(this, <?= $album->id?>)">
-      <?= $this->escapeHtml($album->artist)?>
+
+  <td class="artistCell" style="text-align:center" data-id="<?= $album->id; ?>">
+      <span class="artistSpan"><?= $this->escapeHtml($album->artist)?></span>
+      <a href="#" class="editArtist"><i class="far fa-edit"></i></a>
   </td>
 <?php endforeach;?>
 </table>
@@ -64,5 +76,8 @@ $this->paginationControl(
 </div>
 
 <?php
-$this->headScript()->appendFile('/js/UpdateArtist.js', 'text/javascript');
+$this->headScript()->appendFile('/js/application/notifier.js', 'text/javascript');
+$this->headScript()->appendFile('/js/application/ajax.js', 'text/javascript');
+$this->headScript()->appendFile('/js/album/view.js', 'text/javascript');
+$this->headScript()->appendFile('/js/album/page.js', 'text/javascript');
 ?>
